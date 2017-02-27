@@ -35,9 +35,8 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> impleme
     @Override
     public void onBindViewHolder(CountriesViewHolder holder, int position) {
         Country country = countries.get(position);
-        String path = String.format("world/countries/%s/flag", country.getCallingCode());
-        Picasso.with(context).load(BASE_URL + path)
-                .resize(60, 60).centerCrop().into(holder.getFlagImg());
+        String path = String.format("%s/world/countries/%s/flag", BASE_URL, country.getId());
+        Picasso.with(context).load(path).into(holder.getFlagImg());
         holder.getShortnameTxt().setText(country.getShortName());
     }
 

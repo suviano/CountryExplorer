@@ -31,10 +31,10 @@ public class CountriesRepository implements Repository {
 
     @Override
     public Observable<List<Country>> getCountryFromMemory() {
-        /*if (countryList.isEmpty()) {
+        if (countryList.isEmpty()) {
             return Observable.just(countryList);
         }
-        countryList.clear();*/
+        countryList.clear();
         return Observable.empty();
     }
 

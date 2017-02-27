@@ -10,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -44,8 +41,8 @@ public class CountriesListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_countries, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.movies_list);
         recyclerView.setTag("fragment_countries");
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         return view;
     }
@@ -55,10 +52,9 @@ public class CountriesListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (countries == null) {
             searchCountries();
-        }
-        /*else {
+        } else {
             refreshList(countries);
-        }*/
+        }
     }
 
     public void refreshList(List<Country> countries) {
@@ -81,8 +77,7 @@ public class CountriesListFragment extends Fragment {
     }
 
     void searchCountries() {
-        Observable<List<Country>> countryData = this.countriesRepository.getCountryData();
-        subscription = countryData.subscribeOn(Schedulers.io())
+        subscription = this.countriesRepository.getCountryData().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::refreshList);
     }

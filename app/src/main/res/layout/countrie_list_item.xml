@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:minHeight="107dp"
     android:padding="@dimen/activity_vertical_margin">
 
     <TextView
@@ -18,8 +17,8 @@
 
     <ImageView
         android:id="@+id/flag_img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="false"
         android:contentDescription="@string/country_flag"

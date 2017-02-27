@@ -22,15 +22,7 @@ class CountriesViewHolder extends RecyclerView.ViewHolder {
         return flagImg;
     }
 
-    void setFlagImg(ImageView flagImg) {
-        this.flagImg = flagImg;
-    }
-
     TextView getShortnameTxt() {
         return shortnameTxt;
-    }
-
-    void setShortnameTxt(TextView shortnameTxt) {
-        this.shortnameTxt = shortnameTxt;
     }
 }
