@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiModuleForCountries {
 
-    private static final String BASE_URL = "http://sslapidev.mypush.com.br";
+    public static final String BASE_URL = "http://sslapidev.mypush.com.br";
 
     private OkHttpClient httpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -24,7 +24,7 @@ public class ApiModuleForCountries {
                 .build();
     }
 
-    public CountriesApiService newApiServiceInstance() {
+    CountriesApiService newApiServiceInstance() {
         return newRetrofitInstance(BASE_URL, httpClient()).create(CountriesApiService.class);
     }
 }

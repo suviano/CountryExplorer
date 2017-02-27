@@ -1,13 +1,15 @@
 package suviano.countryexplorer.data;
 
+import java.util.List;
+
 import rx.Observable;
 import suviano.countryexplorer.entities.Country;
 
-public interface Repository {
+interface Repository {
 
-    Observable<Country> getCountryFromMemory();
+    Observable<List<Country>> getCountryFromMemory();
 
-    Observable<Country> getCountryFromNetwork();
+    Observable<List<Country>> getCountryFromNetwork();
 
-    Observable<Country> getCountryData();
+    Observable<List<Country>> getCountryData();
 }

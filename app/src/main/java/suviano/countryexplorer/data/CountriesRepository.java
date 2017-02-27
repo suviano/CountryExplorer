@@ -13,7 +13,7 @@ public class CountriesRepository implements Repository {
     private static CountriesRepository INSTANCE = null;
 
     @NonNull
-    List<Country> countryList;
+    private List<Country> countryList;
     @NonNull
     private ApiModuleForCountries apiModuleForCountries;
 
@@ -30,23 +30,24 @@ public class CountriesRepository implements Repository {
     }
 
     @Override
-    public Observable<Country> getCountryFromMemory() {
-        if (countryList.isEmpty()) {
-            return Observable.from(countryList);
+    public Observable<List<Country>> getCountryFromMemory() {
+        /*if (countryList.isEmpty()) {
+            return Observable.just(countryList);
         }
-        countryList.clear();
+        countryList.clear();*/
         return Observable.empty();
     }
 
     @Override
-    public Observable<Country> getCountryFromNetwork() {
-        Observable<Country> countryObservable = this.apiModuleForCountries
-                .newApiServiceInstance().listCountries();
-        return countryObservable.single(country -> true);
+    public Observable<List<Country>> getCountryFromNetwork() {
+        Observable<List<Country>> countriesObservable = this.apiModuleForCountries
+                .newApiServiceInstance().activeCountries();
+        return countriesObservable.single(countries -> true);
     }
 
     @Override
-    public Observable<Country> getCountryData() {
-        return getCountryFromMemory().switchIfEmpty(getCountryFromNetwork());
+    public Observable<List<Country>> getCountryData() {
+        //return getCountryFromMemory().switchIfEmpty(getCountryFromNetwork());
+        return getCountryFromNetwork();
     }
 }

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Country {
     @SerializedName("id")
     @Expose
-    private String id; //int
+    private String id;
 
     @SerializedName("iso")
     @Expose
@@ -26,7 +26,7 @@ public class Country {
 
     @SerializedName("status")
     @Expose
-    private String status; //int
+    private String status;
 
     @SerializedName("culture")
     @Expose
@@ -86,5 +86,10 @@ public class Country {
 
     public void setCulture(String culture) {
         this.culture = culture;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
