@@ -1,5 +1,6 @@
 package suviano.countryexplorer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,10 +16,10 @@ import java.util.List;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import suviano.countryexplorer.data.CountriesRepository;
+import suviano.countryexplorer.data.remote.CountriesRepository;
 import suviano.countryexplorer.entities.Country;
 
-public class CountriesListFragment extends Fragment {
+public class CountriesListFragment extends Fragment implements CountryClickListener {
 
     RecyclerView recyclerView;
 
@@ -39,7 +40,7 @@ public class CountriesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_countries, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.movies_list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_countries_list);
         recyclerView.setTag("fragment_countries");
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -59,6 +60,7 @@ public class CountriesListFragment extends Fragment {
 
     public void refreshList(List<Country> countries) {
         CountriesAdapter adapter = new CountriesAdapter(getActivity(), countries);
+        adapter.countryInfo(this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -82,4 +84,12 @@ public class CountriesListFragment extends Fragment {
                 .subscribe(this::refreshList);
     }
 
+    @Override
+    public void countryInfo(View view, int position, Country country) {
+        Intent intent = new Intent(getActivity(), CountryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("COUNTRY_VISIT", country);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 }

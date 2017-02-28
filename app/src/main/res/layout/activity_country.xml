@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="suviano.countryexplorer.CountryActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_country"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_vertical_margin"
+        tools:context="suviano.countryexplorer.CountryActivity">
+
+        <ImageView
+            android:id="@+id/flag_country_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/country_flag"
+            android:minHeight="281dp"
+            android:text="@string/flag_country_img"
+            tools:src="@drawable/flag_place_holder" />
+
+        <TextView
+            android:id="@+id/shortname_country_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/flag_country_img"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/cardview_default_elevation"
+            android:textAlignment="center"
+            tools:text="@string/shortname_country_txt" />
+
+        <TextView
+            android:id="@+id/longname_country_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shortname_country_txt"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/activity_vertical_margin"
+            android:textAlignment="center"
+            tools:text="@string/longname_country_txt" />
+
+        <TextView
+            android:id="@+id/calling_code_country_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/longname_country_txt"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/activity_vertical_margin"
+            android:textAlignment="center"
+            tools:text="@string/calling_code_country_txt" />
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

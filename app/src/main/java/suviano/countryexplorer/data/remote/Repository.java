@@ -1,4 +1,4 @@
-package suviano.countryexplorer.data;
+package suviano.countryexplorer.data.remote;
 
 import java.util.List;
 

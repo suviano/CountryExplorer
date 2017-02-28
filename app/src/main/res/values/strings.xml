@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CountryExplorer</string>
+    <string name="app_name">Country Explorer</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -9,4 +9,13 @@
 
     <string name="countries_list">Countries</string>
     <string name="countries_visited">Visited</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="longname_country_txt">Longname</string>
+    <string name="calling_code_country_txt">Calling code</string>
+    <string name="shortname_country_txt">Shortname</string>
+    <string name="flag_country_img">Flag</string>
+    <string name="save_visited">Save visited</string>
+    <string name="delete_visit">delete visit</string>
 </resources>

@@ -1,4 +1,4 @@
-package suviano.countryexplorer.data;
+package suviano.countryexplorer.data.remote;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
