@@ -19,8 +19,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import suviano.countryexplorer.R;
-import suviano.countryexplorer.data.local.CountriesRepository;
+import suviano.countryexplorer.data.local.CountriesRepositoryLocal;
 import suviano.countryexplorer.entities.Country;
 
 import static suviano.countryexplorer.data.remote.ApiModuleForCountries.BASE_URL;
@@ -31,6 +34,8 @@ public class CountryActivity extends AppCompatActivity
 
     private ActionMenuItemView saveVisit;
     private Country country;
+    private CountriesRepositoryLocal repository;
+    private Subscription subscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,8 @@ public class CountryActivity extends AppCompatActivity
         setContentView(R.layout.activity_country);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_country);
         setSupportActionBar(toolbar);
+        repository =
+                CountriesRepositoryLocal.getInstance(getApplicationContext());
 
         country = getIntent().getParcelableExtra(COUNTRY);
 
@@ -67,6 +74,16 @@ public class CountryActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (subscription != null) {
+            if (!subscription.isUnsubscribed()) {
+                subscription.unsubscribe();
+            }
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == saveVisit.getId()) {
             VisitDatePickerDialog visitDatePickerDialog = new VisitDatePickerDialog();
@@ -83,12 +100,24 @@ public class CountryActivity extends AppCompatActivity
         dateFormat.setTimeZone(visitDate.getTimeZone());
 
         String visit = dateFormat.format(visitDate.getTime());
+
+        subscription = repository
+                .getCountry(this.country.getLongName())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        countryLocal -> {
+                            if (countryLocal == null) {
+                                saveVisit(visit);
+                            }
+                        }
+                );
+    }
+
+    public void saveVisit(String visit) {
         country.setVisitDate(visit);
-
-        CountriesRepository repository = new CountriesRepository(getApplicationContext());
-        repository.save(country);
-
+        repository.saveCountry(country);
         Toast.makeText(this,
-                "Visit to " + country.getShortName() + " saved!", Toast.LENGTH_SHORT).show();
+                "Visit to " + this.country.getShortName() + " saved!", Toast.LENGTH_SHORT).show();
     }
 }

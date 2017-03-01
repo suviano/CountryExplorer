@@ -19,12 +19,12 @@ public class CountriesSQLHelper extends SQLiteOpenHelper {
     public static final String CULTURE;
     public static final String VISIT_DATE;
 
-    private static final int VERSION;
+    private static final int DATABASE_VERSION;
     private static final String DATABASE_NAME;
 
     static {
-        DATABASE_NAME = "world";
-        VERSION = 1;
+        DATABASE_NAME = "CountryExplorer.db";
+        DATABASE_VERSION = 1;
         TABLE_COUNTRIES = "country";
         ID = "_id";
         FLAG_ID = "flagId";
@@ -38,7 +38,7 @@ public class CountriesSQLHelper extends SQLiteOpenHelper {
     }
 
     public CountriesSQLHelper(Context context) {
-        super(context, DATABASE_NAME, null, VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override

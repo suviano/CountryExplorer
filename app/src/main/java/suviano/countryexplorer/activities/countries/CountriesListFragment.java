@@ -18,7 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import suviano.countryexplorer.activities.country.CountryActivity;
 import suviano.countryexplorer.R;
-import suviano.countryexplorer.data.remote.CountriesRepository;
+import suviano.countryexplorer.data.remote.CountriesRepositoryRemote;
 import suviano.countryexplorer.entities.Country;
 
 public class CountriesListFragment extends Fragment implements CountryClickListener {
@@ -27,14 +27,14 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
 
     List<Country> countries;
 
-    CountriesRepository countriesRepository;
+    CountriesRepositoryRemote countriesRepository;
 
     private Subscription subscription;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.countriesRepository = CountriesRepository.newInstance();
+        this.countriesRepository = CountriesRepositoryRemote.newInstance();
     }
 
     @Nullable
@@ -81,7 +81,7 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
     }
 
     void searchCountries() {
-        subscription = this.countriesRepository.getCountryData().subscribeOn(Schedulers.io())
+        subscription = this.countriesRepository.getCountries().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::refreshList);
     }
