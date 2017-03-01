@@ -23,17 +23,19 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
     private Context context;
     private CountryClickListener countryClickListener;
     private Picasso.Builder customPicasso;
+    private int country_list_item;
 
-    CountriesAdapter(Context context, List<Country> countries) {
+    CountriesAdapter(Context context, List<Country> countries, int country_list_item) {
         this.context = context;
         this.countries = countries;
         this.customPicasso = picassoBuilder();
+        this.country_list_item = country_list_item;
     }
 
     @Override
     public CountriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.countrie_list_item, parent, false);
+                .inflate(country_list_item, parent, false);
         CountriesViewHolder holder = new CountriesViewHolder(view);
         view.setTag(holder);
         view.setOnClickListener(this);

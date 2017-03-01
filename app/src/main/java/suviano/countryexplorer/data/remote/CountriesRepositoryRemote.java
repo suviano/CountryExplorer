@@ -5,9 +5,10 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import rx.Observable;
+import suviano.countryexplorer.data.Repository;
 import suviano.countryexplorer.entities.Country;
 
-public class CountriesRepositoryRemote {
+public class CountriesRepositoryRemote implements Repository {
 
     private static CountriesRepositoryRemote INSTANCE = null;
 
@@ -25,6 +26,7 @@ public class CountriesRepositoryRemote {
         return INSTANCE;
     }
 
+    @Override
     public Observable<List<Country>> getCountries() {
         Observable<List<Country>> countriesObservable = this.apiModuleForCountries
                 .newApiServiceInstance().activeCountries();

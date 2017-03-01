@@ -18,6 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import suviano.countryexplorer.activities.country.CountryActivity;
 import suviano.countryexplorer.R;
+import suviano.countryexplorer.data.Repository;
 import suviano.countryexplorer.data.remote.CountriesRepositoryRemote;
 import suviano.countryexplorer.entities.Country;
 
@@ -27,7 +28,7 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
 
     List<Country> countries;
 
-    CountriesRepositoryRemote countriesRepository;
+    Repository countriesRepository;
 
     private Subscription subscription;
 
@@ -61,7 +62,7 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
     }
 
     public void refreshList(List<Country> countries) {
-        CountriesAdapter adapter = new CountriesAdapter(getActivity(), countries);
+        CountriesAdapter adapter = new CountriesAdapter(getActivity(), countries, R.layout.country_list_item);
         adapter.countryInfo(this);
         recyclerView.setAdapter(adapter);
     }

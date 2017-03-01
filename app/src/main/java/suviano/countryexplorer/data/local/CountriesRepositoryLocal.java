@@ -15,9 +15,10 @@ import java.util.List;
 import rx.Observable;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import suviano.countryexplorer.data.Repository;
 import suviano.countryexplorer.entities.Country;
 
-public class CountriesRepositoryLocal {
+public class CountriesRepositoryLocal implements Repository{
     @Nullable
     private static CountriesRepositoryLocal INSTANCE;
 
@@ -34,7 +35,7 @@ public class CountriesRepositoryLocal {
         countryMapperFunc = this::getCountryCursor;
     }
 
-    public static CountriesRepositoryLocal getInstance(@NonNull Context context) {
+    public static CountriesRepositoryLocal newInstance(@NonNull Context context) {
         if (INSTANCE == null) {
             INSTANCE = new CountriesRepositoryLocal(context);
         }

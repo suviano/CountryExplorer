@@ -44,7 +44,7 @@ public class CountryActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_country);
         setSupportActionBar(toolbar);
         repository =
-                CountriesRepositoryLocal.getInstance(getApplicationContext());
+                CountriesRepositoryLocal.newInstance(getApplicationContext());
 
         country = getIntent().getParcelableExtra(COUNTRY);
 
