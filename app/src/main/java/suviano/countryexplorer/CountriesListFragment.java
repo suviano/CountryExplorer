@@ -92,4 +92,5 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
 }

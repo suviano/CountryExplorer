@@ -18,4 +18,5 @@
     <string name="flag_country_img">Flag</string>
     <string name="save_visited">Save visited</string>
     <string name="delete_visit">delete visit</string>
+    <string name="visited">visited</string>
 </resources>

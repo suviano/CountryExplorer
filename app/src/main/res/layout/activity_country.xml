@@ -37,7 +37,7 @@
             android:contentDescription="@string/country_flag"
             android:minHeight="281dp"
             android:text="@string/flag_country_img"
-            tools:src="@drawable/flag_place_holder" />
+            tools:src="@drawable/generic_flag" />
 
         <TextView
             android:id="@+id/shortname_country_txt"

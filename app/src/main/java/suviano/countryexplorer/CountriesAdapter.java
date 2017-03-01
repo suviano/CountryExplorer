@@ -2,6 +2,7 @@ package suviano.countryexplorer;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,12 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
     private List<Country> countries;
     private Context context;
     private CountryClickListener countryClickListener;
+    private Picasso.Builder customPicasso;
 
     CountriesAdapter(Context context, List<Country> countries) {
         this.context = context;
         this.countries = countries;
+        this.customPicasso = picassoBuilder();
     }
 
     @Override
@@ -40,7 +43,7 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
     public void onBindViewHolder(CountriesViewHolder holder, int position) {
         Country country = countries.get(position);
         String path = String.format("%s/world/countries/%s/flag", BASE_URL, country.getId());
-        Picasso.with(context).load(path).into(holder.getFlagImg());
+        customPicasso.build().load(path).into(holder.getFlagImg());
         holder.getShortnameTxt().setText(country.getShortName());
     }
 
@@ -60,5 +63,11 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
 
     void countryInfo(@NonNull CountryClickListener countryClickListener) {
         this.countryClickListener = countryClickListener;
+    }
+
+    private Picasso.Builder picassoBuilder() {
+        Picasso.Builder builder = new Picasso.Builder(context);
+        return builder.listener((picasso, uri, exception) -> ResourcesCompat.getDrawable(
+                context.getResources(), R.drawable.generic_flag, null));
     }
 }
