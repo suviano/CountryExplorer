@@ -1,10 +1,12 @@
-package suviano.countryexplorer;
+package suviano.countryexplorer.activities.countries;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import suviano.countryexplorer.R;
 
 class CountriesViewHolder extends RecyclerView.ViewHolder {
     private ImageView flagImg;

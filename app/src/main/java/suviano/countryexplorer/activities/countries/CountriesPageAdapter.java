@@ -1,4 +1,4 @@
-package suviano.countryexplorer;
+package suviano.countryexplorer.activities.countries;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

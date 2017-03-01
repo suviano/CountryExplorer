@@ -18,7 +18,7 @@ public class Country implements Parcelable {
             return new Country[size];
         }
     };
-    public static final String VISIT = "COUNTRY_VISIT";
+    public static final String COUNTRY = "COUNTRY_VISIT";
     @SerializedName("id")
     @Expose
     private String id;
@@ -40,6 +40,8 @@ public class Country implements Parcelable {
     @SerializedName("culture")
     @Expose
     private String culture;
+    private long dbId;
+    private String visitDate;
 
     protected Country(Parcel in) {
         id = in.readString();
@@ -49,6 +51,35 @@ public class Country implements Parcelable {
         callingCode = in.readString();
         status = in.readString();
         culture = in.readString();
+    }
+
+    public Country(String id, String iso, String shortName, String longName, String callingCode,
+                   String status, String culture, String visitDate, long dbId) {
+        this.id = id;
+        this.iso = iso;
+        this.shortName = shortName;
+        this.longName = longName;
+        this.callingCode = callingCode;
+        this.status = status;
+        this.culture = culture;
+        this.visitDate = visitDate;
+        this.dbId = dbId;
+    }
+
+    public String getVisitDate() {
+        return visitDate;
+    }
+
+    public void setVisitDate(String visitDate) {
+        this.visitDate = visitDate;
+    }
+
+    public long getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(long dbId) {
+        this.dbId = dbId;
     }
 
     public String getFlagUrl(String base_url) {

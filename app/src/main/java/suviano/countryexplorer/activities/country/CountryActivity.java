@@ -1,4 +1,4 @@
-package suviano.countryexplorer;
+package suviano.countryexplorer.activities.country;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -11,21 +11,26 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
+import suviano.countryexplorer.R;
+import suviano.countryexplorer.data.local.CountriesRepository;
 import suviano.countryexplorer.entities.Country;
 
 import static suviano.countryexplorer.data.remote.ApiModuleForCountries.BASE_URL;
-import static suviano.countryexplorer.entities.Country.VISIT;
+import static suviano.countryexplorer.entities.Country.COUNTRY;
 
 public class CountryActivity extends AppCompatActivity
         implements ActionMenuItemView.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     private ActionMenuItemView saveVisit;
-    private Calendar visitDate;
+    private Country country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +39,7 @@ public class CountryActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_country);
         setSupportActionBar(toolbar);
 
-        Country country = getIntent().getParcelableExtra(VISIT);
+        country = getIntent().getParcelableExtra(COUNTRY);
 
         ImageView imageView = (ImageView) findViewById(R.id.flag_country_img);
         TextView shortname = (TextView) findViewById(R.id.shortname_country_txt);
@@ -71,9 +76,19 @@ public class CountryActivity extends AppCompatActivity
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        visitDate = Calendar.getInstance();
+        Calendar visitDate = Calendar.getInstance();
         visitDate.set(year, month, dayOfMonth);
 
-        // TODO: Save on database
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        dateFormat.setTimeZone(visitDate.getTimeZone());
+
+        String visit = dateFormat.format(visitDate.getTime());
+        country.setVisitDate(visit);
+
+        CountriesRepository repository = new CountriesRepository(getApplicationContext());
+        repository.save(country);
+
+        Toast.makeText(this,
+                "Visit to " + country.getShortName() + " saved!", Toast.LENGTH_SHORT).show();
     }
 }

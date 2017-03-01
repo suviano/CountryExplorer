@@ -1,4 +1,4 @@
-package suviano.countryexplorer;
+package suviano.countryexplorer.activities.countries;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,8 @@ import java.util.List;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import suviano.countryexplorer.activities.country.CountryActivity;
+import suviano.countryexplorer.R;
 import suviano.countryexplorer.data.remote.CountriesRepository;
 import suviano.countryexplorer.entities.Country;
 

@@ -1,10 +1,12 @@
-package suviano.countryexplorer;
+package suviano.countryexplorer.activities.countries;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import suviano.countryexplorer.R;
 
 public class CountriesActivity extends AppCompatActivity {
     Toolbar toolbar;

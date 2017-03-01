@@ -1,4 +1,4 @@
-package suviano.countryexplorer;
+package suviano.countryexplorer.activities.countries;
 
 import android.view.View;
 
