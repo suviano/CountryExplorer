@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +21,19 @@ import static suviano.countryexplorer.data.remote.ApiModuleForCountries.BASE_URL
 class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
         implements View.OnClickListener {
     private List<Country> countries;
+    private SparseBooleanArray selectedItems;
     private Context context;
     private CountryClickListener countryClickListener;
     private Picasso.Builder customPicasso;
     private int country_list_item;
 
-    CountriesAdapter(Context context, List<Country> countries, int country_list_item) {
+    CountriesAdapter(Context context, List<Country> countries, int country_list_item,
+                    @NonNull CountryClickListener countryClickListener) {
         this.context = context;
         this.countries = countries;
         this.customPicasso = picassoBuilder();
         this.country_list_item = country_list_item;
+        this.countryClickListener = countryClickListener;
     }
 
     @Override
@@ -62,10 +66,6 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
             int position = viewHolder.getAdapterPosition();
             countryClickListener.countryInfo(v, position, countries.get(position));
         }
-    }
-
-    void countryInfo(@NonNull CountryClickListener countryClickListener) {
-        this.countryClickListener = countryClickListener;
     }
 
     private Picasso.Builder picassoBuilder() {

@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -37,9 +38,8 @@ public class CountriesVisitedFragment extends CountriesListFragment {
 
     @Override
     public void refreshList(List<Country> countries) {
-        CountriesAdapter adapter = new CountriesAdapter(
-                getActivity(), countries, R.layout.countries_list_item_visited);
-        adapter.countryInfo(this);
+        adapter = new CountriesAdapter(
+                getActivity(), countries, R.layout.countries_list_item_visited, this);
         recyclerView.setAdapter(adapter);
     }
 }

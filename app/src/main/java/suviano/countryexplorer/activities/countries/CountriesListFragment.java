@@ -16,8 +16,8 @@ import java.util.List;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import suviano.countryexplorer.activities.country.CountryActivity;
 import suviano.countryexplorer.R;
+import suviano.countryexplorer.activities.country.CountryActivity;
 import suviano.countryexplorer.data.Repository;
 import suviano.countryexplorer.data.remote.CountriesRepositoryRemote;
 import suviano.countryexplorer.entities.Country;
@@ -25,11 +25,9 @@ import suviano.countryexplorer.entities.Country;
 public class CountriesListFragment extends Fragment implements CountryClickListener {
 
     RecyclerView recyclerView;
-
     List<Country> countries;
-
     Repository countriesRepository;
-
+    CountriesAdapter adapter;
     private Subscription subscription;
 
     @Override
@@ -61,9 +59,17 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
         }
     }
 
+    @Override
+    public void countryInfo(View view, int position, Country country) {
+        Intent intent = new Intent(getActivity(), CountryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("COUNTRY_VISIT", country);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     public void refreshList(List<Country> countries) {
-        CountriesAdapter adapter = new CountriesAdapter(getActivity(), countries, R.layout.country_list_item);
-        adapter.countryInfo(this);
+        adapter = new CountriesAdapter(getActivity(), countries, R.layout.country_list_item, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -85,15 +91,6 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
         subscription = this.countriesRepository.getCountries().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::refreshList);
-    }
-
-    @Override
-    public void countryInfo(View view, int position, Country country) {
-        Intent intent = new Intent(getActivity(), CountryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("COUNTRY_VISIT", country);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
 }

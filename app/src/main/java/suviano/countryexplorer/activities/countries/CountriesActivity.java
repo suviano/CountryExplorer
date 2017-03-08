@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import suviano.countryexplorer.R;
 
 public class CountriesActivity extends AppCompatActivity {
@@ -16,6 +18,7 @@ public class CountriesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_countries);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
