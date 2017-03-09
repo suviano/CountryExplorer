@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import suviano.countryexplorer.entities.Country;
 
-import static suviano.countryexplorer.data.remote.ApiModuleForCountries.BASE_URL;
+import static suviano.countryexplorer.data.remote.FlagApi.loadFlag;
 
 class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
         implements View.OnClickListener {
@@ -43,8 +41,7 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
     @Override
     public void onBindViewHolder(CountriesViewHolder holder, int position) {
         Country country = countries.get(position);
-        Picasso.with(context).load(String.format(
-                "%s/world/countries/%s/flag", BASE_URL, country.getId())).into(holder.getFlagImg());
+        loadFlag(context, country.getIso(), holder.getFlagImg(), true);
         holder.getShortnameTxt().setText(country.getShortName());
     }
 

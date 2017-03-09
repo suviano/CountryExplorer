@@ -91,10 +91,6 @@ public class Country implements Parcelable {
         this.dbId = dbId;
     }
 
-    public String getFlagUrl(String base_url) {
-        return String.format("%s/world/countries/%s/flag", base_url, getId());
-    }
-
     public String getId() {
         return id;
     }

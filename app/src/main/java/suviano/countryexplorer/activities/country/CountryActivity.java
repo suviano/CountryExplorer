@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -26,7 +24,7 @@ import suviano.countryexplorer.R;
 import suviano.countryexplorer.data.local.CountriesRepositoryLocal;
 import suviano.countryexplorer.entities.Country;
 
-import static suviano.countryexplorer.data.remote.ApiModuleForCountries.BASE_URL;
+import static suviano.countryexplorer.data.remote.FlagApi.loadFlag;
 import static suviano.countryexplorer.entities.Country.COUNTRY;
 
 public class CountryActivity extends AppCompatActivity
@@ -59,9 +57,7 @@ public class CountryActivity extends AppCompatActivity
         longname.setText(country.getLongName());
         TextView callingCode = (TextView) findViewById(R.id.calling_code_country_txt);
         callingCode.setText(country.getCallingCode());
-        String flagUrl = country.getFlagUrl(BASE_URL);
-        Picasso.with(this.getApplicationContext())
-                .load(flagUrl).into(imageView);
+        loadFlag(getApplicationContext(), country.getIso(), imageView, false);
     }
 
     @Override
