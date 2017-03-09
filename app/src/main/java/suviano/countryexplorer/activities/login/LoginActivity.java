@@ -2,7 +2,6 @@ package suviano.countryexplorer.activities.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,7 +20,6 @@ import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -138,17 +136,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private Bundle facebookData(@NonNull JSONObject object) {
-        try {
-            Bundle bundle = new Bundle();
-            if (object.has("email")) {
-                bundle.putString("email", object.getString("email"));
-            }
-            return bundle;
-        } catch (JSONException e) {
-            Log.w(TAG, e.getCause() + ":" + e.getLocalizedMessage());
-        }
-
-        return null;
-    }
 }
