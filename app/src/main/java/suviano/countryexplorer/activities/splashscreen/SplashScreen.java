@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import suviano.countryexplorer.activities.countries.CountriesActivity;
+import suviano.countryexplorer.activities.login.LoginActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -12,8 +12,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(this, CountriesActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 }

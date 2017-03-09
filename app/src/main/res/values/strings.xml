@@ -1,4 +1,7 @@
 <resources>
+    <string name="facebook_app_id">251805568556262</string>
+    <string name="fb_login_protocol_scheme">fb251805568556262</string>
+
     <string name="app_name">Country Explorer</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -10,8 +13,6 @@
     <string name="countries_list">Countries</string>
     <string name="countries_visited">Visited</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="longname_country_txt">Longname</string>
     <string name="calling_code_country_txt">Calling code</string>
     <string name="shortname_country_txt">Shortname</string>
@@ -19,4 +20,6 @@
     <string name="save_visited">Save visited</string>
     <string name="delete_visit">delete visit</string>
     <string name="visited">visited</string>
+    <string name="title_activity_login">Sign in</string>
+
 </resources>

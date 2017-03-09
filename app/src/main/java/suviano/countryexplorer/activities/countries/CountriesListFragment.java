@@ -7,12 +7,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
+import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -90,7 +93,22 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
     void searchCountries() {
         subscription = this.countriesRepository.getCountries().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::refreshList);
+                .subscribe(new Observer<List<Country>>() {
+                    @Override
+                    public void onCompleted() {
+                        Toast.makeText(getActivity(), "Loading finished", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.wtf("Contries list fragment", e.getCause() + "::" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<Country> countries) {
+                        refreshList(countries);
+                    }
+                });
     }
 
 }

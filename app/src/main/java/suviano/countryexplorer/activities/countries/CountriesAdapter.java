@@ -2,9 +2,7 @@ package suviano.countryexplorer.activities.countries;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import suviano.countryexplorer.R;
 import suviano.countryexplorer.entities.Country;
 
 import static suviano.countryexplorer.data.remote.ApiModuleForCountries.BASE_URL;
@@ -21,17 +18,14 @@ import static suviano.countryexplorer.data.remote.ApiModuleForCountries.BASE_URL
 class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
         implements View.OnClickListener {
     private List<Country> countries;
-    private SparseBooleanArray selectedItems;
     private Context context;
     private CountryClickListener countryClickListener;
-    private Picasso.Builder customPicasso;
     private int country_list_item;
 
     CountriesAdapter(Context context, List<Country> countries, int country_list_item,
-                    @NonNull CountryClickListener countryClickListener) {
+                     @NonNull CountryClickListener countryClickListener) {
         this.context = context;
         this.countries = countries;
-        this.customPicasso = picassoBuilder();
         this.country_list_item = country_list_item;
         this.countryClickListener = countryClickListener;
     }
@@ -49,8 +43,8 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
     @Override
     public void onBindViewHolder(CountriesViewHolder holder, int position) {
         Country country = countries.get(position);
-        String path = String.format("%s/world/countries/%s/flag", BASE_URL, country.getId());
-        customPicasso.build().load(path).into(holder.getFlagImg());
+        Picasso.with(context).load(String.format(
+                "%s/world/countries/%s/flag", BASE_URL, country.getId())).into(holder.getFlagImg());
         holder.getShortnameTxt().setText(country.getShortName());
     }
 
@@ -66,11 +60,5 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
             int position = viewHolder.getAdapterPosition();
             countryClickListener.countryInfo(v, position, countries.get(position));
         }
-    }
-
-    private Picasso.Builder picassoBuilder() {
-        Picasso.Builder builder = new Picasso.Builder(context);
-        return builder.listener((picasso, uri, exception) -> ResourcesCompat.getDrawable(
-                context.getResources(), R.drawable.generic_flag, null));
     }
 }
