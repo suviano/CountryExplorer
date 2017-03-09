@@ -7,13 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 import suviano.countryexplorer.R;
 
 public class CountriesActivity extends AppCompatActivity {
-    Toolbar toolbar;
-    ViewPager viewPager;
-    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +19,13 @@ public class CountriesActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_countries);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new CountriesPageAdapter(getSupportFragmentManager()));
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 }

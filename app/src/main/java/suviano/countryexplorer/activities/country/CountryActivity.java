@@ -43,6 +43,10 @@ public class CountryActivity extends AppCompatActivity
         setContentView(R.layout.activity_country);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_country);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         repository =
                 CountriesRepositoryLocal.newInstance(getApplicationContext());
 
@@ -114,7 +118,7 @@ public class CountryActivity extends AppCompatActivity
                 );
     }
 
-    public void saveVisit(String visit) {
+    private void saveVisit(String visit) {
         country.setVisitDate(visit);
         repository.saveCountry(country);
         Toast.makeText(this,

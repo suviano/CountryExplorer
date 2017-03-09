@@ -16,14 +16,6 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".activities.countries.CountriesActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activities.country.CountryActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activities.splashscreen.SplashScreen"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -32,13 +24,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="30433b9c39f697dfdeb9fa4a0884d0b183f6837f" />
-
-        <activity android:name=".activities.login.LoginActivity" />
-
+        <activity
+            android:name=".activities.countries.CountriesActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.country.CountryActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="suviano.countryexplorer.activities.countries.CountriesActivity" />
+        </activity>
+        <activity
+            android:name=".activities.login.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -52,6 +53,9 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="30433b9c39f697dfdeb9fa4a0884d0b183f6837f" />
     </application>
 
 </manifest>

@@ -28,9 +28,9 @@ import suviano.countryexplorer.entities.Country;
 public class CountriesListFragment extends Fragment implements CountryClickListener {
 
     RecyclerView recyclerView;
-    List<Country> countries;
     Repository countriesRepository;
     CountriesAdapter adapter;
+    private List<Country> countries;
     private Subscription subscription;
 
     @Override
@@ -63,7 +63,7 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
     }
 
     @Override
-    public void countryInfo(View view, int position, Country country) {
+    public void countryInfo(int position, Country country) {
         Intent intent = new Intent(getActivity(), CountryActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("COUNTRY_VISIT", country);
@@ -71,7 +71,7 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
         startActivity(intent);
     }
 
-    public void refreshList(List<Country> countries) {
+    void refreshList(List<Country> countries) {
         adapter = new CountriesAdapter(getActivity(), countries, R.layout.country_list_item, this);
         recyclerView.setAdapter(adapter);
     }
@@ -82,7 +82,7 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
         unSubscribe();
     }
 
-    public void unSubscribe() {
+    private void unSubscribe() {
         if (subscription != null) {
             if (!subscription.isUnsubscribed()) {
                 subscription.unsubscribe();
@@ -90,7 +90,7 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
         }
     }
 
-    void searchCountries() {
+    private void searchCountries() {
         subscription = this.countriesRepository.getCountries().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Country>>() {

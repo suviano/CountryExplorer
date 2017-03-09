@@ -58,7 +58,7 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder>
         if (countryClickListener != null) {
             CountriesViewHolder viewHolder = (CountriesViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
-            countryClickListener.countryInfo(v, position, countries.get(position));
+            countryClickListener.countryInfo(position, countries.get(position));
         }
     }
 }
