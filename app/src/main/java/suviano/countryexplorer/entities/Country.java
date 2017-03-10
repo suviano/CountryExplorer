@@ -42,6 +42,7 @@ public class Country implements Parcelable {
     private String culture;
     private long dbId;
     private String visitDate;
+    private boolean selected;
 
     protected Country(Parcel in) {
         id = in.readString();
@@ -74,6 +75,14 @@ public class Country implements Parcelable {
         this.culture = culture;
         this.visitDate = visitDate;
         this.dbId = dbId;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public String getVisitDate() {

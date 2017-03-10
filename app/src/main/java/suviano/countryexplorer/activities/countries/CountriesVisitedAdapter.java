@@ -1,6 +1,7 @@
 package suviano.countryexplorer.activities.countries;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import suviano.countryexplorer.entities.Country;
 import static suviano.countryexplorer.data.remote.FlagApi.loadFlag;
 
 class CountriesVisitedAdapter extends CountriesAdapter implements EventsAdapter {
-
 
     CountriesVisitedAdapter(Context context, List<Country> countries, int country_list_item) {
         super(context, countries, country_list_item);
@@ -39,8 +39,20 @@ class CountriesVisitedAdapter extends CountriesAdapter implements EventsAdapter 
 
         loadFlag(context, country.getIso(), countriesViewHolder.getFlagImg(), true);
         countriesViewHolder.getShortnameTxt().setText(country.getShortName());
+
+        defineDelete(position, country.isSelected(), countriesViewHolder);
+
         countriesViewHolder.itemView.setOnClickListener(v -> countryInfo(position));
-        countriesViewHolder.getDeleteVisit().setOnClickListener(v -> deleteItem(position));
+        countriesViewHolder.itemView.setOnLongClickListener(v -> {
+            countries.get(position).setSelected(!countries.get(position).isSelected());
+            v.setBackgroundColor(
+                    countries.get(position).isSelected() ?
+                            Color.parseColor("#FF455296") :
+                            Color.WHITE
+            );
+            defineDelete(position, country.isSelected(), countriesViewHolder);
+            return true;
+        });
     }
 
     @Override
@@ -49,15 +61,23 @@ class CountriesVisitedAdapter extends CountriesAdapter implements EventsAdapter 
     }
 
     private void deleteItem(int position) {
+        String id = countries.get(position).getId();
 
-        boolean b = CountriesRepositoryLocal.newInstance(context)
-                .deleteCountry(countries.get(position).getId());
-        if (b) {
-            countries.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, countries.size());
-        } else {
+        countries.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, countries.size());
+
+        if (!CountriesRepositoryLocal.newInstance(context).deleteCountry(id)) {
             Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void defineDelete(int position, boolean selected, CountriesViewHolder view) {
+        if (selected) {
+            view.getDeleteVisit().setVisibility(View.GONE);
+        } else {
+            view.getDeleteVisit().setVisibility(View.VISIBLE);
+            view.getDeleteVisit().setOnClickListener(v -> deleteItem(position));
         }
     }
 

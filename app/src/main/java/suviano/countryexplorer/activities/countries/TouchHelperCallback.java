@@ -1,6 +1,5 @@
 package suviano.countryexplorer.activities.countries;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -46,10 +45,8 @@ class TouchHelperCallback extends ItemTouchHelper.Callback {
             View itemView = viewHolder.itemView;
             Paint p = new Paint();
             p.setColor(Color.parseColor("#ff404d"));
-            if (dX > 0) {
-                c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
-                        (float) itemView.getBottom(), p);
-            }
+            c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
+                    (float) itemView.getBottom(), p);
 
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
