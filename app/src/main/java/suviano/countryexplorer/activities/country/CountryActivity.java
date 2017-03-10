@@ -3,11 +3,9 @@ package suviano.countryexplorer.activities.country;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,9 +26,8 @@ import static suviano.countryexplorer.data.remote.FlagApi.loadFlag;
 import static suviano.countryexplorer.entities.Country.COUNTRY;
 
 public class CountryActivity extends AppCompatActivity
-        implements ActionMenuItemView.OnClickListener, DatePickerDialog.OnDateSetListener {
+        implements DatePickerDialog.OnDateSetListener {
 
-    private ActionMenuItemView saveVisit;
     private Country country;
     private CountriesRepositoryLocal repository;
     private Subscription subscription;
@@ -68,8 +65,10 @@ public class CountryActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        saveVisit = (ActionMenuItemView) findViewById(R.id.save_visit);
-        saveVisit.setOnClickListener(this);
+        if (item.getItemId() == R.id.save_visit) {
+            VisitDatePickerDialog visitDatePickerDialog = new VisitDatePickerDialog();
+            visitDatePickerDialog.show(getSupportFragmentManager(), "visitDate");
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -80,14 +79,6 @@ public class CountryActivity extends AppCompatActivity
             if (!subscription.isUnsubscribed()) {
                 subscription.unsubscribe();
             }
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == saveVisit.getId()) {
-            VisitDatePickerDialog visitDatePickerDialog = new VisitDatePickerDialog();
-            visitDatePickerDialog.show(getSupportFragmentManager(), "visitDate");
         }
     }
 
@@ -105,11 +96,9 @@ public class CountryActivity extends AppCompatActivity
                 .getCountry(this.country.getLongName())
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        countryLocal -> {
-                            if (countryLocal == null) {
+                .subscribe(countryLocal -> {
+                            if (countryLocal == null)
                                 saveVisit(visit);
-                            }
                         }
                 );
     }

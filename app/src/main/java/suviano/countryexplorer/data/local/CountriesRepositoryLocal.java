@@ -18,7 +18,7 @@ import rx.schedulers.Schedulers;
 import suviano.countryexplorer.data.Repository;
 import suviano.countryexplorer.entities.Country;
 
-public class CountriesRepositoryLocal implements Repository{
+public class CountriesRepositoryLocal implements Repository {
     @Nullable
     private static CountriesRepositoryLocal INSTANCE;
 
@@ -57,7 +57,8 @@ public class CountriesRepositoryLocal implements Repository{
                 cursor.getColumnIndexOrThrow(CountriesSQLHelper.CALLINGCODE));
         String visitDate = cursor.getString(
                 cursor.getColumnIndexOrThrow(CountriesSQLHelper.VISIT_DATE));
-        return new Country(idFlag, shortName, longName, callingCode, visitDate);
+        String iso = cursor.getString(cursor.getColumnIndexOrThrow(CountriesSQLHelper.ISO));
+        return new Country(idFlag, shortName, longName, callingCode, visitDate, iso);
     }
 
     public void saveCountry(@NonNull Country country) {
@@ -85,16 +86,22 @@ public class CountriesRepositoryLocal implements Repository{
     }
 
     public Observable<List<Country>> getCountries() {
-
-        String query = String.format("SELECT %s, %s, %s, %s, %s FROM %s",
+        String query = String.format("SELECT %s, %s, %s, %s, %s, %s FROM %s",
                 CountriesSQLHelper.VISIT_DATE,
                 CountriesSQLHelper.CALLINGCODE,
                 CountriesSQLHelper.FLAG_ID,
                 CountriesSQLHelper.LONGNAME,
                 CountriesSQLHelper.SHORTNAME,
+                CountriesSQLHelper.ISO,
                 CountriesSQLHelper.TABLE_COUNTRIES);
         return databaseHelper
                 .createQuery(CountriesSQLHelper.TABLE_COUNTRIES, query)
                 .mapToList(countryMapperFunc);
+    }
+
+    public boolean deleteCountry(@NonNull String id) {
+        String selection = CountriesSQLHelper.FLAG_ID + " LIKE ?";
+        return 1 == databaseHelper.delete(
+                CountriesSQLHelper.TABLE_COUNTRIES, selection, String.valueOf(id));
     }
 }

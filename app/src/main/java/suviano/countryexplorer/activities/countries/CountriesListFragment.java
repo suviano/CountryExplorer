@@ -1,6 +1,5 @@
 package suviano.countryexplorer.activities.countries;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,17 +14,16 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import suviano.countryexplorer.R;
-import suviano.countryexplorer.activities.country.CountryActivity;
 import suviano.countryexplorer.data.Repository;
 import suviano.countryexplorer.data.remote.CountriesRepositoryRemote;
 import suviano.countryexplorer.entities.Country;
+import suviano.countryexplorer.utils.ReactiveEx;
 
-public class CountriesListFragment extends Fragment implements CountryClickListener {
+public class CountriesListFragment extends Fragment {
 
     RecyclerView recyclerView;
     Repository countriesRepository;
@@ -62,17 +60,9 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
         }
     }
 
-    @Override
-    public void countryInfo(int position, Country country) {
-        Intent intent = new Intent(getActivity(), CountryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("COUNTRY_VISIT", country);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
     void refreshList(List<Country> countries) {
-        adapter = new CountriesAdapter(getActivity(), countries, R.layout.country_list_item, this);
+        this.countries = countries;
+        adapter = new CountriesAdapter(getActivity(), countries, R.layout.country_list_item);
         recyclerView.setAdapter(adapter);
     }
 
@@ -83,32 +73,17 @@ public class CountriesListFragment extends Fragment implements CountryClickListe
     }
 
     private void unSubscribe() {
-        if (subscription != null) {
-            if (!subscription.isUnsubscribed()) {
-                subscription.unsubscribe();
-            }
-        }
+        ReactiveEx.unSubscribe(subscription);
     }
 
     private void searchCountries() {
         subscription = this.countriesRepository.getCountries().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Country>>() {
-                    @Override
-                    public void onCompleted() {
-                        Toast.makeText(getActivity(), "Loading finished", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.wtf("Contries list fragment", e.getCause() + "::" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(List<Country> countries) {
-                        refreshList(countries);
-                    }
-                });
+                .subscribe(
+                        this::refreshList,
+                        throwable -> Log.wtf("COUNTRIES", throwable.getCause() + "::" + throwable.getMessage()),
+                        () -> Toast.makeText(getActivity(), "Loading finished", Toast.LENGTH_SHORT).show()
+                );
     }
 
 }

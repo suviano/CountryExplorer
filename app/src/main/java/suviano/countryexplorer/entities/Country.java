@@ -53,13 +53,14 @@ public class Country implements Parcelable {
         culture = in.readString();
     }
 
-    public Country(
-            String id, String shortName, String longName, String callingCode, String visitDate) {
+    public Country(String id, String shortName, String longName, String callingCode,
+                   String visitDate, String iso) {
         this.id = id;
         this.shortName = shortName;
         this.longName = longName;
         this.callingCode = callingCode;
         this.visitDate = visitDate;
+        this.iso = iso;
     }
 
     public Country(String id, String iso, String shortName, String longName, String callingCode,
