@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
@@ -103,5 +104,11 @@ public class CountriesRepositoryLocal implements Repository {
         String selection = CountriesSQLHelper.FLAG_ID + " LIKE ?";
         return 1 == databaseHelper.delete(
                 CountriesSQLHelper.TABLE_COUNTRIES, selection, String.valueOf(id));
+    }
+
+    public boolean deleteCountries(@NonNull List<String> ids) {
+        String selection = String.format(
+                CountriesSQLHelper.FLAG_ID + " IN (%s)", TextUtils.join(",", ids));
+        return 1 == databaseHelper.delete(CountriesSQLHelper.TABLE_COUNTRIES, selection);
     }
 }
