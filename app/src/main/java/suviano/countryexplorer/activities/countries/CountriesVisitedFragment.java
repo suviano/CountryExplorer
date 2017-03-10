@@ -3,9 +3,9 @@ package suviano.countryexplorer.activities.countries;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,7 @@ public class CountriesVisitedFragment extends Fragment {
 
     RecyclerView recyclerView;
     CountriesRepositoryLocal countriesRepository;
-    CountriesAdapter adapter;
+    CountriesVisitedAdapter adapter;
     private Subscription subscription;
 
     @Override
@@ -38,10 +38,11 @@ public class CountriesVisitedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_countries, container, false);
+
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_countries_list);
         recyclerView.setTag("fragment_visited_countries");
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         return view;
     }
 
@@ -52,8 +53,10 @@ public class CountriesVisitedFragment extends Fragment {
     }
 
     void refreshList(List<Country> countries) {
-        adapter = new CountriesAdapter(
+        adapter = new CountriesVisitedAdapter(
                 getActivity(), countries, R.layout.countries_list_item_visited);
+        ItemTouchHelper.Callback callback = new TouchHelperCallback(adapter);
+        new ItemTouchHelper(callback).attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
     }
 

@@ -26,4 +26,13 @@
         android:textAlignment="center"
         tools:text="South Sudan" />
 
+    <ImageView
+        android:id="@+id/delete_visit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="7dp"
+        android:contentDescription="@string/delete_visit"
+        android:src="@drawable/delete" />
+
 </LinearLayout>

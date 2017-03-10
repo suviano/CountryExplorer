@@ -19,10 +19,10 @@ import suviano.countryexplorer.entities.Country;
 
 import static suviano.countryexplorer.data.remote.FlagApi.loadFlag;
 
-class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesViewHolder> {
-    private List<Country> countries;
-    private Context context;
-    private int country_list_item;
+class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    List<Country> countries;
+    Context context;
+    int country_list_item;
 
     CountriesAdapter(Context context, List<Country> countries, int country_list_item) {
         this.context = context;
@@ -32,32 +32,34 @@ class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesVi
 
     @Override
     public CountriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context)
-                .inflate(country_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(country_list_item, parent, false);
         CountriesViewHolder holder = new CountriesViewHolder(view);
         view.setTag(holder);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(CountriesViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Country country = countries.get(position);
-        loadFlag(context, country.getIso(), holder.getFlagImg(), true);
-        holder.getShortnameTxt().setText(country.getShortName());
-        holder.itemView.setOnClickListener(v -> countryInfo(country));
-    }
 
-    private void countryInfo(Country country) {
-        Intent intent = new Intent(context, CountryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("COUNTRY_VISIT", country);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
+        CountriesViewHolder countriesViewHolder = (CountriesViewHolder) holder;
+
+        loadFlag(context, country.getIso(), countriesViewHolder.getFlagImg(), true);
+        countriesViewHolder.getShortnameTxt().setText(country.getShortName());
+        countriesViewHolder.itemView.setOnClickListener(v -> countryInfo(position));
     }
 
     @Override
     public int getItemCount() {
         return countries != null ? countries.size() : 0;
+    }
+
+    void countryInfo(int position) {
+        Intent intent = new Intent(context, CountryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("COUNTRY_VISIT", countries.get(position));
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
     static class CountriesViewHolder extends RecyclerView.ViewHolder {
